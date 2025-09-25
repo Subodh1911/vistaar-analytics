@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vistaar Analytics - Political Intelligence Platform</title>
+    <meta name="description" content="Next-generation political consulting platform offering AI-powered insights, campaign management tools, and strategic analytics">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0066ff;
+            --primary-dark: #0052cc;
+            --secondary: #7c3aed;
+            --accent: #ff6b35;
+            --dark: #0a0a0a;
+            --dark-800: #1a1a1a;
+            --dark-700: #2a2a2a;
+            --light: #ffffff;
+            --gray-50: #fafafa;
+            --gray-100: #f5f5f5;
+            --gray-400: #a3a3a3;
+            --gray-600: #525252;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--light);
+            text-decoration: none;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--light);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Page Sections */
+        .page-section {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        /* Home Page Specific */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: radial-gradient(circle at 20% 80%, #0066ff15 0%, transparent 50%), 
+                        radial-gradient(circle at 80% 20%, #7c3aed15 0%, transparent 50%),
+                        var(--dark);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: radial-gradient(circle at 25px 25px, rgba(255,255,255,.1) 2px, transparent 0);
+            background-size: 50px 50px;
+            opacity: 0.3;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(3rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff, #a3a3a3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--gray-400);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--light);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 102, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--light);
+            padding: 1rem 2rem;
+            border: 2px solid var(--glass-border);
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--glass);
+            transform: translateY(-2px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .platform-preview {
+            width: 400px;
+            height: 500px;
+            background: linear-gradient(145deg, var(--dark-800), var(--dark-700));
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .platform-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            font-weight: 600;
+        }
+
+        .platform-content {
+            padding: 2rem;
+            height: calc(100% - 60px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--glass);
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--light);
+            font-weight: bold;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 6rem 0;
+            background: var(--dark-800);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--light), var(--gray-400));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            font-size: 1.25rem;
+            color: var(--gray-400);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--light);
+        }
+
+        .service-card p {
+            color: var(--gray-400);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .service-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: gap 0.3s ease;
+        }
+
+        .service-link:hover {
+            gap: 0.75rem;
+        }
+
+        /* Other Page Styles */
+        .legal {
+            padding: 8rem 0 4rem;
+            background: var(--dark);
+            min-height: 100vh;
+        }
+
+        .legal-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .legal-content {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 3rem;
+        }
+
+        .legal-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .legal-content h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 2rem 0 1rem;
+            color: var(--light);
+        }
+
+        .legal-content p {
+            color: var(--gray-400);
+            margin-bottom: 1.25rem;
+            line-height: 1.7;
+        }
+
+        .legal-content ul {
+            margin: 1.25rem 0 1.25rem 1.5rem;
+            color: var(--gray-400);
+        }
+
+        .legal-content li {
+            margin-bottom: 0.75rem;
+            line-height: 1.6;
+        }
+
+        /* Contact Styles */
+        .contact {
+            padding: 6rem 0;
+            background: var(--dark);
+            min-height: 100vh;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+
+        .contact-form {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--light);
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 102, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .form-input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--light);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: start;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            flex-shrink: 0;
+            color: var(--light);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-800);
+            border-top: 1px solid var(--glass-border);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--light);
+        }
+
+        .footer-section p {
+            color: var(--gray-400);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section ul li a {
+            color: var(--gray-400);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .footer-section ul li a:hover {
+            color: var(--light);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--glass-border);
+            padding-top: 2rem;
+            margin-top: 3rem;
+            text-align: center;
+            color: var(--gray-400);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: var(--dark);
+                flex-direction: column;
+                padding: 2rem;
+                border-top: 1px solid var(--glass-border);
+            }
+
+            .nav-menu.active {
+                display: flex;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .hero-container,
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .platform-preview {
+                width: 320px;
+                height: 400px;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="#" class="logo" onclick="showPage('home')">Vistaar Analytics</a>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a class="nav-link active" onclick="showPage('home')">Home</a></li>
+                <li><a class="nav-link" onclick="showPage('services')">Services</a></li>
+                <li><a class="nav-link" onclick="showPage('contact')">Contact</a></li>
+                <li><a class="nav-link" onclick="showPage('privacy')">Privacy</a></li>
+                <li><a class="nav-link" onclick="showPage('terms')">Terms</a></li>
+            </ul>
+            <button class="mobile-toggle" onclick="toggleMobileMenu()">☰</button>
+        </div>
+    </nav>
+
+    <!-- HOME PAGE -->
+    <div id="home" class="page-section active">
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <h1>Political Intelligence Redefined</h1>
+                    <p>Advanced analytics platform combining AI-powered insights, real-time data processing, and strategic consulting to transform how political campaigns are run in modern India.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn-primary" onclick="showPage('contact')">Get Early Access</a>
+                        <a href="#" class="btn-secondary" onclick="showPage('services')">Explore Platform</a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat">
+                            <div class="stat-number">2024</div>
+                            <div class="stat-label">Founded</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">AI-First</div>
+                            <div class="stat-label">Platform</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">India</div>
+                            <div class="stat-label">Focused</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="platform-preview">
+                        <div class="platform-header">
+                            Vistaar Dashboard
+                        </div>
+                        <div class="platform-content">
+                            <div class="feature-item">
+                                <div class="feature-icon">AI</div>
+                                <div>
+                                    <div style="font-weight: 600;">Smart Analytics</div>
+                                    <div style="font-size: 0.875rem; color: var(--gray-400);">Real-time insights</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">⚡</div>
+                                <div>
+                                    <div style="font-weight: 600;">Live Tracking</div>
+                                    <div style="font-size: 0.875rem; color: var(--gray-400);">Campaign monitoring</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">📊</div>
+                                <div>
+                                    <div style="font-weight: 600;">Data Insights</div>
+                                    <div style="font-size: 0.875rem; color: var(--gray-400);">Voter analysis</div>
+                                </div>
+                            </div>
+                            <div class="feature-item">
+                                <div class="feature-icon">🎯</div>
+                                <div>
+                                    <div style="font-weight: 600;">Strategy Tools</div>
+                                    <div style="font-size: 0.875rem; color: var(--gray-400);">Campaign optimization</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="services">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Next-Generation Platform</h2>
+                    <p class="section-subtitle">Comprehensive suite of tools designed for modern political campaigns and strategic consulting</p>
+                </div>
+                <div class="services-grid">
+                    <div class="service-card">
+                        <h3>AI-Powered Analytics</h3>
+                        <p>Advanced machine learning algorithms analyze voter sentiment, social media trends, and campaign performance in real-time to provide actionable insights.</p>
+                        <a href="#" class="service-link" onclick="showPage('services')">Learn More →</a>
+                    </div>
+                    <div class="service-card">
+                        <h3>Mobile Campaign App</h3>
+                        <p>Native iOS and Android app for on-the-go campaign management, field team coordination, and instant access to critical campaign data.</p>
+                        <a href="#" class="service-link" onclick="showPage('contact')">Request Demo →</a>
+                    </div>
+                    <div class="service-card">
+                        <h3>Strategic Consulting</h3>
+                        <p>Expert political strategists and data scientists providing personalized guidance, opposition research, and campaign optimization services.</p>
+                        <a href="#" class="service-link" onclick="showPage('contact')">Get Consultation →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- SERVICES PAGE -->
+    <div id="services" class="page-section">
+        <div class="legal">
+            <div class="legal-container">
+                <div class="legal-content">
+                    <h1>Our Platform & Services</h1>
+                    
+                    <h2>Technology Platform</h2>
+                    <p>Vistaar Analytics is building India's most advanced political intelligence platform, combining artificial intelligence, real-time data processing, and strategic analytics.</p>
+                    
+                    <h2>Core Platform Features</h2>
+                    <ul>
+                        <li><strong>AI-Powered Sentiment Analysis:</strong> Real-time monitoring of social media, news, and public opinion across multiple languages</li>
+                        <li><strong>Voter Database Management:</strong> Comprehensive voter profiling with demographic and behavioral data</li>
+                        <li><strong>Campaign Performance Tracking:</strong> Live analytics showing campaign reach, engagement, and conversion metrics</li>
+                        <li><strong>Predictive Modeling:</strong> Machine learning algorithms that forecast election outcomes and voter behavior</li>
+                        <li><strong>Strategic Messaging Tools:</strong> AI-assisted content creation and message optimization</li>
+                    </ul>
+
+                    <h2>Mobile Application</h2>
+                    <ul>
+                        <li>Real-time campaign dashboard and key metrics</li>
+                        <li>Field team coordination and task management</li>
+                        <li>Offline data collection and synchronization</li>
+                        <li>Secure team communication and file sharing</li>
+                        <li>GPS-based constituency mapping</li>
+                    </ul>
+
+                    <h2>Consulting Services</h2>
+                    <ul>
+                        <li><strong>Campaign Strategy Development:</strong> Comprehensive planning from positioning to execution</li>
+                        <li><strong>Digital Campaign Management:</strong> Social media and online advertising campaigns</li>
+                        <li><strong>Data Analytics Consulting:</strong> Custom research and voter insights</li>
+                        <li><strong>Crisis Communication:</strong> Rapid response and reputation management</li>
+                    </ul>
+
+                    <h2>Pricing Plans</h2>
+                    <p><strong>Startup Tier:</strong> ₹15,000/month - Basic analytics and app access</p>
+                    <p><strong>Professional Tier:</strong> ₹35,000/month - Full platform with consulting</p>
+                    <p><strong>Enterprise Tier:</strong> Custom pricing - Dedicated team and advanced features</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTACT PAGE -->
+    <div id="contact" class="page-section">
+        <div class="contact">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Let's Build the Future Together</h2>
+                    <p class="section-subtitle">Ready to transform your political campaigns? Get in touch for a consultation.</p>
+                </div>
+                <div class="contact-grid">
+                    <div class="contact-form">
+                        <h3>Get Started Today</h3>
+                        <form id="contact-form">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-input" placeholder="Your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address</label>
+                                <input type="email" class="form-input" placeholder="your.email@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Phone Number</label>
+                                <input type="tel" class="form-input" placeholder="+91 98765 43210" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Organization</label>
+                                <input type="text" class="form-input" placeholder="Your political organization">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Service Interest</label>
+                                <select class="form-input">
+                                    <option>Platform Demo</option>
+                                    <option>Strategic Consulting</option>
+                                    <option>Mobile App Beta</option>
+                                    <option>Enterprise Solutions</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Message</label>
+                                <textarea class="form-input" rows="4" placeholder="Tell us about your needs"></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary" style="width: 100%;">Send Message</button>
+                        </form>
+                    </div>
+                    <div class="contact-info">
+                        <h3>Get in Touch</h3>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">📍</div>
+                            <div>
+                                <h4>Headquarters</h4>
+                                <p>WeWork Galaxy<br>Bangalore - 560025</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">📞</div>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>+91 98765 43210</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">✉️</div>
+                            <div>
+                                <h4>Email</h4>
+                                <p>hello@vistaaranalytics.com</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">⏰</div>
+                            <div>
+                                <h4>Business Hours</h4>
+                                <p>Mon-Sat: 9:00 AM - 7:00 PM IST</p>
+                            </div>
+                        </div>
+
+                        <div class="contact-item">
+                            <div class="contact-icon">🚀</div>
+                            <div>
+                                <h4>Beta Program</h4>
+                                <p>Early access available</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRIVACY PAGE -->
+    <div id="privacy" class="page-section">
+        <div class="legal">
+            <div class="legal-container">
+                <div class="legal-content">
+                    <h1>Privacy Policy</h1>
+                    <p><strong>Last Updated:</strong> September 24, 2025</p>
+
+                    <h2>Information Collection and Use</h2>
+                    <p>Vistaar Analytics operates a political intelligence platform that collects and processes data to provide analytics and consulting services.</p>
+
+                    <h2>Data We Collect</h2>
+                    <ul>
+                        <li><strong>Account Information:</strong> Name, email, phone number, organization details</li>
+                        <li><strong>Usage Data:</strong> Platform interactions, feature usage patterns, analytics queries</li>
+                        <li><strong>Campaign Data:</strong> Information you upload for analysis</li>
+                        <li><strong>Technical Data:</strong> IP addresses, browser information, device details</li>
+                    </ul>
+
+                    <h2>How We Use Your Data</h2>
+                    <ul>
+                        <li>Provide and improve our political analytics platform</li>
+                        <li>Process and analyze data to generate insights</li>
+                        <li>Deliver consulting services and strategic guidance</li>
+                        <li>Send service updates and platform notifications</li>
+                        <li>Provide customer support and technical assistance</li>
+                    </ul>
+
+                    <h2>Data Sharing</h2>
+                    <p>We do not sell your personal information. We may share data only with service providers, when required by law, or to protect rights and safety.</p>
+
+                    <h2>Security</h2>
+                    <p>We implement industry-standard security measures including encryption, access controls, and regular security assessments.</p>
+
+                    <h2>Your Rights</h2>
+                    <ul>
+                        <li>Access and review your personal information</li>
+                        <li>Correct inaccurate or incomplete data</li>
+                        <li>Request deletion of your information</li>
+                        <li>Data portability and export options</li>
+                    </ul>
+
+                    <h2>Contact</h2>
+                    <p>Email: privacy@vistaaranalytics.com<br>Phone: +91 98765 43210</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMS PAGE -->
+    <div id="terms" class="page-section">
+        <div class="legal">
+            <div class="legal-container">
+                <div class="legal-content">
+                    <h1>Terms of Service</h1>
+                    <p><strong>Last Updated:</strong> September 24, 2025</p>
+
+                    <h2>Agreement to Terms</h2>
+                    <p>By accessing Vistaar Analytics' platform or services, you agree to these Terms of Service and our Privacy Policy.</p>
+
+                    <h2>Services Description</h2>
+                    <ul>
+                        <li>Web-based analytics platform with political data and insights</li>
+                        <li>Mobile applications for iOS and Android</li>
+                        <li>Strategic consulting and campaign management</li>
+                        <li>Data analysis, research, and reporting services</li>
+                    </ul>
+
+                    <h2>User Responsibilities</h2>
+                    <ul>
+                        <li>Provide accurate registration information</li>
+                        <li>Maintain account security</li>
+                        <li>Use services lawfully for political purposes</li>
+                        <li>Comply with election laws and regulations</li>
+                    </ul>
+
+                    <h2>Prohibited Uses</h2>
+                    <ul>
+                        <li>Violating any applicable laws</li>
+                        <li>Transmitting false or defamatory information</li>
+                        <li>Interfering with our services or servers</li>
+                        <li>Unauthorized system access attempts</li>
+                    </ul>
+
+                    <h2>Subscription and Payment</h2>
+                    <ul>
+                        <li>Fees are billed monthly or annually</li>
+                        <li>All fees are non-refundable except as required by law</li>
+                        <li>Pricing changes require 30 days notice</li>
+                    </ul>
+
+                    <h2>Limitation of Liability</h2>
+                    <p>Services are provided "as is" with no warranties. Our liability is limited to amounts paid in the preceding 12 months.</p>
+
+                    <h2>Contact</h2>
+                    <p>Email: legal@vistaaranalytics.com<br>Phone: +91 98765 43210</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Vistaar Analytics</h3>
+                <p>Next-generation political intelligence platform built for modern campaigns. Combining AI-powered analytics with strategic consulting.</p>
+            </div>
+            <div class="footer-section">
+                <h3>Platform</h3>
+                <ul>
+                    <li><a onclick="showPage('services')">Analytics Dashboard</a></li>
+                    <li><a onclick="showPage('services')">Mobile App</a></li>
+                    <li><a onclick="showPage('services')">API Access</a></li>
+                    <li><a onclick="showPage('contact')">Beta Program</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Services</h3>
+                <ul>
+                    <li><a onclick="showPage('services')">Strategic Consulting</a></li>
+                    <li><a onclick="showPage('services')">Campaign Management</a></li>
+                    <li><a onclick="showPage('services')">Data Analytics</a></li>
+                    <li><a onclick="showPage('contact')">Custom Solutions</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Company</h3>
+                <ul>
+                    <li><a onclick="showPage('contact')">Contact</a></li>
+                    <li><a onclick="showPage('privacy')">Privacy Policy</a></li>
+                    <li><a onclick="showPage('terms')">Terms of Service</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Vistaar Analytics. All rights reserved. Building the future of political intelligence.</p>
+        </div>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            // Hide all page sections
+            document.querySelectorAll('.page-section').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // Update navigation
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector(`[onclick="showPage('${pageId}')"]`);
+            if (activeLink && activeLink.classList.contains('nav-link')) {
+                activeLink.classList.add('active');
+            }
+            
+            // Close mobile menu
+            document.getElementById('nav-menu').classList.remove('active');
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('nav-menu').classList.toggle('active');
+        }
+
+        // Form submission
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('contact-form');
+            if (form) {
+                form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const button = form.querySelector('button[type="submit"]');
+                    const originalText = button.textContent;
+                    
+                    button.textContent = 'Sending...';
+                    button.style.opacity = '0.7';
+                    
+                    setTimeout(() => {
+                        button.textContent = 'Message Sent!';
+                        button.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+                        
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                            button.style.background = '';
+                            button.style.opacity = '1';
+                            form.reset();
+                        }, 2000);
+                    }, 1500);
+                });
+            }
+        });
+
+        // Close mobile menu on outside click
+        document.addEventListener('click', (e) => {
+            const navMenu = document.getElementById('nav-menu');
+            const mobileToggle = document.querySelector('.mobile-toggle');
+            
+            if (!navMenu.contains(e.target) && !mobileToggle.contains(e.target)) {
+                navMenu.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>
